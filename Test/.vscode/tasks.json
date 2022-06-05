@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"type": "cppbuild",
-			"label": "C/C++: g++.exe build active file",
+			"label": "Build w/ GCC/g++ v. 11.3.0",
 			"command": "D:\\Programmi\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-g",
@@ -23,7 +23,7 @@
 		},
 		{
 			"type": "cppbuild",
-			"label": "C/C++: clang++.exe build active file",
+			"label": "Build w/ clang++ v. 14.0.3",
 			"command": "D:\\Programmi\\mingw64\\bin\\clang++.exe",
 			"args": [
 				"-g",
