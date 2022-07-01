@@ -6,17 +6,44 @@ int Add(int a, int b){
     return sum;
 }
 
-int main(){
+int findMin(int a, int b)
+{
+    if (a < b)
+    {
+        return a;
+    }
+    else
+    {
+        return b;
+    }
     
-    int first {13};
-    int second {7};
+}
 
-    std::cout << "Number 1 " << first << std::endl;
-    std::cout << "Number 2 " << second << std::endl;
+int findMin(int arr[], int length)
+{
+    int min = arr[0];
 
-    int sum = Add(first, second);
+    for (int i = 0; i < length; i++)
+    {
+        min = findMin(min, arr[i]);
+    }
 
-    std::cout << "Sum " << sum << std::endl;
+    return min;
+}
+
+int main(){
+
+    // Dichiaro e riempio l'array
+    int v[10] = {888, 4, 6, 2, 3, 99, 44, 77, 90, 3};
+    
+    // Trovo la lunghezza dell'array 
+    //  (sizeof mi ritorna i byte, quindi devo dividere per la lunghezza del tipo)
+    int length = sizeof(v)/sizeof(int);
+
+    // trovo il minore chiamando la funzione
+    int min = findMin(v, length);
+    
+    std::cout << "Min " << min << std::endl;
 
     return 0;
 }
