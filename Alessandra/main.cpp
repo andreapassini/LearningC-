@@ -1,23 +1,59 @@
-#include <iostream> // per std::cout, std::cin e std::endl
+#include <iostream>
 
-int main()
-{
-    // print ("ciao")
-    cout << "scrivi numero decimale" << endl;
+int main() {
+	int a;
+	int i = 0;
+	int Numero1;
+	int Numero2;
 
-    int numero1;
+	int A[10];
+	A[0] = 0;
+	A[1] = 0;
+	A[2] = 0;
+	A[3] = 0;
+	A[4] = 0;
+	A[5] = 0;
+	A[6] = 0;
+	A[7] = 0;
+	A[8] = 0;
+	A[9] = 0;
 
-    // numero1 = input
-    cin >> numero1;
+	while (a == 0)
+	{
+		std::cin >> a;
 
-    cout << "Inserire un altro numero decimale" << endl;
+		if (a == 1)
+		{
+			std::cin >> Numero1;
+			while (A[i] == 0)
+			{
+				i = i + 1;
+			}
+			A[i] = Numero1;
+		}
 
-    int numero2;
-    
-    cin >> numero2;
+		if (a == 2)
+		{
+			std::cin >> Numero2;
+			while (A[i] == Numero2)
+			{
+				i = i + 1;
+			}
+			A[i] = 0;
 
-    int differenza = numero1 - numero2;
-    cout << differenza << endl;
+		}
 
-    return 0;
+		if (a == 3)
+		{
+			do
+			{
+				std::cout << A[i];
+				i = i + 1;
+
+			} while (i < 10)
+
+		}
+	}
+
+
 }
