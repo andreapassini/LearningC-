@@ -14,6 +14,10 @@ int main(int argc, char* argv[])
     cout << "Min of Int" << INT_MIN << endl; // first bit for sign
     cout << "Max Int " << INT_MAX << endl; // Include 0
 
+    // Datatype overflow
+    int a = INT_MAX;
+    cout << a + 1; // Goes to min value
+
     // Unsigned Int
     cout << "Size Unsigned int " << sizeof(unsigned int) << "bytes\n";
     cout << "Uint max " << UINT_MAX << endl;
