@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <ostream>
 using namespace std;
@@ -10,6 +9,7 @@ int main(int argc, char* argv[])
     cout << int('a') << endl;
 
     cout << int('A') << endl;
-    
+
+    cout << (char)65 << endl;
     return 0;
 }
