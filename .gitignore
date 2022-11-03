@@ -34,3 +34,8 @@
 # Visual Studio
 *.vs
 *.vscode
+*.ilk
+*.tlog
+*.idb
+*.pdb
+*.pdb
