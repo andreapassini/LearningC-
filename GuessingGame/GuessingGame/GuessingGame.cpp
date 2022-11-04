@@ -8,13 +8,24 @@ int main(int argc, char* argv[])
     cin >> hostUserNum;
 
     system("cls");
-    
-    cout << "Guest :";
-    cin >> guestUserNum;
 
-    // Ternary Op
-    (hostUserNum == guestUserNum)? cout << "Correct!" << endl
-        : cout << "Failed" << endl;
+    int max = 2;
+
+    for(int i = 0; i <= max; i++)
+    {
+        cout << "Guest (" << i + 1 << " out of " << max + 1 << " ) :";
+        cin >> guestUserNum;
+
+        // Ternary Op
+        if (hostUserNum == guestUserNum)
+        {
+            cout << "Correct!" << endl;
+            i = max + 1;
+        }
+        else
+            cout << "Failed" << endl;
+    }
+
     
     return 0;
 }
