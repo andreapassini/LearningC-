@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         cout << num1 << operation << num2 << " = "
             << num1 / num2;
         break;
-    case "%":
+    case '%':
         // Check Int or float
         bool isNum1Int, isNum2Int;
         ((int)num1==num1)? isNum1Int = true: isNum1Int = false;
@@ -38,9 +38,18 @@ int main(int argc, char* argv[])
         {
             cout << num1 << operation << num2 << " = "
             << (int)num1 % (int)num2;
-            break;
         }
+        else
+        {
+            cout << "Not Valid";
+        }
+        break;
+    default:
+        cout << "Not a valid Operation";
+        break;
     }
+    
+        
 
     return 0;
 }
