@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 using namespace std;
 
@@ -6,7 +7,7 @@ int main(int argc, char* argv[])
     cout << "Enter Width of the Rectangle" << endl;
     int width, height;
     cin >> width;
-    cout << "Enter Width of the Rectangle" << endl;
+    cout << "Enter Height of the Rectangle" << endl;
     cin >> height;
     cout << "Enter symbol of Rectangle" << endl;
     char symbol;
@@ -18,7 +19,7 @@ int main(int argc, char* argv[])
         // Column
         for (int j = 0; j < width; j++)
         {
-            cout << " " << symbol << " ";
+            cout << setw(3) << symbol;
         }
         cout << endl;
     }
