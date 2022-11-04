@@ -32,6 +32,9 @@ int main(int argc, char* argv[])
     case 12:
         cout << 31 << "days month";
         break;
+    default:
+        cout << "Not Valid";
+        break;
     }
     
     return 0;
