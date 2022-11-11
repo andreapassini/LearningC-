@@ -3,7 +3,7 @@ using namespace std;
 
 int money = 10000;
 
-int showMenu()
+int ShowMenu()
 {
     cout << "\n MENU " << endl;
     cout << "1 - Check balance" << endl;
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 
     do
     {
-        choice = showMenu();
+        choice = ShowMenu();
 
         switch (choice)
         {
