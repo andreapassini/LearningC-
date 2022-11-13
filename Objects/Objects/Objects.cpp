@@ -12,13 +12,14 @@ private:
 // Accessible to Child
 protected:
     string OwnerName;
-    
+    int ContentQuality;
 public:
     YouTubeChannel(string name, string owner)
     {
         Name = name;
         OwnerName = owner;
         SubCount = 0;
+        ContentQuality = 0;
     }
     void GetInfo()
     {
@@ -45,6 +46,16 @@ public:
     {
         PublishedVideoTitles.push_back(title);
     }
+    void CheckAnalytics()
+    {
+        if(ContentQuality < 5)
+        {
+            cout << Name << " bad quality" << endl;
+        } else
+        {
+            cout << Name << " GOOD quality" << endl;
+        }
+    }
 };
 
 class CookingYoutubeChannel: public YouTubeChannel
@@ -57,6 +68,7 @@ public:
 
     void Practice() {
         cout << OwnerName << " practicing " << endl;
+        ContentQuality++;
     }
 };
 
@@ -70,6 +82,7 @@ public:
 
     void Practice() {
         cout << OwnerName << " LA LA LAAAAA! " << endl;
+        ContentQuality++;
     }
 };
 
@@ -80,17 +93,26 @@ int main(int argc, char* argv[])
         "Andrea"
     );
 
-    cooking_youtube_channel.Subscribe();
-    cooking_youtube_channel.Subscribe();
-    cooking_youtube_channel.Subscribe();
-
-    cooking_youtube_channel.PublishVideo("1^");
-    cooking_youtube_channel.PublishVideo("2^");
-    cooking_youtube_channel.PublishVideo("3^");
-
-    cooking_youtube_channel.GetInfo();
-
+    SingingYoutubeChannel singing_youtube_channel(
+        "BBBBB",
+        "Angelo"
+    );
+    
     cooking_youtube_channel.Practice();
+
+    singing_youtube_channel.Practice();
+    singing_youtube_channel.Practice();
+    singing_youtube_channel.Practice();
+    singing_youtube_channel.Practice();
+
+    // A pointer of parent class can point to instance
+    // of child class
+    YouTubeChannel *yt1 = &cooking_youtube_channel;
+    YouTubeChannel *yt2 = &singing_youtube_channel;
+
+    // Invoke methods using pointers
+    yt1->CheckAnalytics();
+    yt2->CheckAnalytics();
 
     return 0;
 }
