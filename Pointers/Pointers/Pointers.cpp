@@ -21,6 +21,6 @@ int main(int argc, char* argv[])
     *prt2 = 7;
     cout << prt2 << " = " << *prt2 << endl;
 
-    system("pause>0");
+    //system("pause>0");
     return 0;
 }
