@@ -1,0 +1,5 @@
+﻿  Application.cpp
+  Application2.cpp
+  Generazione del codice in corso...
+Application2.obj : error LNK2005: main già definito in Application.obj
+D:\ANDREA\FREE TIME\CODE\LearningCPlusPlus\Es_14-03\Es_14-03\x64\Debug\Es_14-03.exe : fatal error LNK1169: rilevato uno o più simboli definiti più volte
