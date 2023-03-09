@@ -1,0 +1,3 @@
+﻿  Application.cpp
+D:\ANDREA\FREE TIME\CODE\LearningCPlusPlus\FunctionPointerAndLambda\Application.cpp(89,1): warning C4552: '-': risultato dell'espressione non usato
+  FunctionPointerAndLambda.vcxproj -> D:\ANDREA\FREE TIME\CODE\LearningCPlusPlus\FunctionPointerAndLambda\x64\Debug\FunctionPointerAndLambda.exe
