@@ -1,5 +1,6 @@
 #include "iostream"
 #include "vector"
+#include "Account.h"
 
 class Animal{
 private:
@@ -21,14 +22,21 @@ class Player{
 };
 
 class Account{
+private:
     double balance;
-
-    bool Withdraw(double amount);
-    bool Deposit(double amount);
-
 public:
-    std::string name;
+    void SetBalance(double bal);
+    double GetBalance() const;
 };
+
+void Account::SetBalance(double bal) {
+    this->balance = bal;
+}
+
+double Account::GetBalance() const {
+    return this->balance;
+}
+
 
 int main(){
 /*
