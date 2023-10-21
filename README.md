@@ -56,8 +56,7 @@ Try not to ignore those warnings.
 
 ### **Operator**
 
-- A set of signs with a meaning for each type. Their meaning can be overwritten by the programmer.
-
+- A set of signs with a meaning for each type. Their meaning can be overwritten by the programmer.  
 - **+, -, \<\<(stream insertion operator), \>\>(stream extraction operator)**
 
 ### **Punctuation**
@@ -140,7 +139,7 @@ using namespace std::endl
 ```
 
 
-### **I/O**
+## **I/O**
 
 - **```std::cout << std::endl```** 
   
@@ -152,10 +151,8 @@ using namespace std::endl
       
     **Reads from the keyboard buffer**
 
-    can be combined **```cin >> data1 >> data2```**
-
-    White spaces are ignored
-
+    can be combined **```cin >> data1 >> data2```**  
+    White spaces are ignored  
     if we have 2 cin, we can reuse the data in the buffer if is spaced, like: 
     ```c++ 
     std::cin >> a; 
@@ -170,10 +167,13 @@ using namespace std::endl
 - **```std::cerr```**
 - **```std::clog```**
 
-- **```<<```** Insertion operator, output streams**
-- **```\>\>```** // Extraction operator, input streams**
+- **```<<```**  
+  **Insertion operator**, output streams
 
-**Variables**
+- **```>>```**  
+  **Extraction operator**, input streams
+
+## Variables
 
 ![](RackMultipart20231019-1-z5pq4_html_ef91e1f29b762af0.png)
 
@@ -195,7 +195,7 @@ The area/region of the code where we can access that specific variable;
 The compiler looks at variable like this:
 
 - **First** in the scope which there is the variable (looks for a **local variable** dec)
-- **Then** looks at the **global variables**![](RackMultipart20231019-1-z5pq4_html_3cc01177b867532d.png)
+- **Then** looks at the **global variables**![](Images/VariablesAndMemory.png)
 
 **Primitive Data Types**
 
