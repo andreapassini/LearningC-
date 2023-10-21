@@ -238,7 +238,7 @@ With the preprocessor directive **```#include <climits>```** we can check that
 
 Usual sizes and [precision](https://www.programiz.com/cpp-programming/data-types#:~:text=C%2B%2B%20int,values%20from%20%2D2147483648%20to%202147483647):
 
-**Char**
+### **Char**
 
 - **char:** 8 bits or 1 byte
 - **char16\_t:** 16 bits or 2 bytes
@@ -249,7 +249,7 @@ Single quotes ' ' will make it a single character
 
 Double quotes " " will make it a string, and give an error if saved into char.
 
-**Integer**
+### **Integer**
 
 | _ **SIGNED** _ |
 | --- |
@@ -263,9 +263,9 @@ Double quotes " " will make it a string, and give an error if saved into char.
 | **unsigned short** | **16 bits - 2 bytes** |
 | **unsigned int** | **32 bits - 4 bytes** |
 | **unsigned long** | **32 bits - 4 bytes** |
-| **unsigned long long** | **64 bits - 8 bytes** |
+| **unsigned long long** **64 bits - 8 bytes** |
 
-**Float**
+### **Float**
 
 | _ **FLOATs** _ |
  |
@@ -277,7 +277,7 @@ Double quotes " " will make it a string, and give an error if saved into char.
 | **long double** | **12 bytes** |
  |
 
-**Booleans**
+### **Booleans**
 
 To store true or false
 
