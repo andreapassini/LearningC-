@@ -4,7 +4,7 @@
 >
 >Bjarne Btroustrup
 
-## Basic programming concepts
+# Basic programming concepts
 
 ### **To Compile** means:
 - create the **.obj** (in Windows) file, by creating the **binary code**.
@@ -62,7 +62,13 @@ Try not to ignore those warnings.
 
 ### **Punctuation**
 
-- **{ }, ;, " "**
+```c++ 
+  { }
+  ;
+  ,
+  .
+  " "
+```
 
 All together they make the **Syntax**
 
@@ -74,7 +80,11 @@ Process the code source before the compiler.
 - **Execute Directive**
   - **#**
   - **#include**
-    - **Substitute** the **#include \<iostream\>** (or other) with the **library/code** and recursively **preprocess** that **.**
+    - **Substitute** the 
+    ```c++ 
+    #include <iostream>
+    ``` 
+  (or other) with the **library/code** and recursively **preprocess** that **.**
 
 **The preprocessor does not understand c++, simply follows the preprocessor directive and get the code ready for the compiler**
 
@@ -82,57 +92,86 @@ Process the code source before the compiler.
 
 - **One must exist.**
 
-- **Return an int, 0 if correct, something else if wrong.**
+- **Return** an **```int```**, 
+  - **0** => **correct**, 
+  - **something else** => **wrong**
 
 ![](RackMultipart20231019-1-z5pq4_html_ffdd9765912924ba.png)
 
+```c++ 
+  // applicationName.exe
+  int main(){
+    return 0;
+  }
+
+  // applicationName.exe argument1 argument2 
+  int main(int argc, char* argv[]){   // argc counts arguments including app name
+    return 0;
+  }
+``` 
+
 ### **ARGC: Argument count**
 
-**including the name of the application**
+including the name of the application
 
 
 ### **ARGV: Argument vector**
 
-**including the name of the application**
+including the name of the application
 
 ### **Namespaces**
 
-- Containers to group code entities in namespace scopes, allowing us to avoid name conflicts.
+Containers to group code entities in namespace scopes, allowing us to avoid name conflicts.
 
-**std::cout** and **andrea::cout**
+**```std::cout```** and **```andrea::cout```**
 
-#### **::** scope resolution operator
+***```::```*** Scope Resolution Operator
 
 we can avoid retyping every time the same namespace::identifier with **using**:
 
-- **```using std```**  using the entire namespace
+```c++ 
+using namespace std //using the entire namespace
 
-- **```using std::cout```** using only that identifier in the namespace
+using namespace std::cout //using only that identifier in the namespace
 
-    - **```using std::cin```**
+using namespace std::cin
 
-    - **```using std::endl```**
+using namespace std::endl
+```
+
 
 ### **I/O**
 
-- **```std::cout << std::endl```** goes to the next line and flushes the buffer
+- **```std::cout << std::endl```** 
+  
+  goes to the **next line** and **flushes the buffer**
 
-- **```\n```** just goes to the next line
-- **```cin```** can be combined **```cin >> data1 >> data2```**
+  - **```\n```** **just** goes to the **next line**
 
-**// White spaces are ignored,**
+- **```std::cin```** 
+      
+    **Reads from the keyboard buffer**
 
-**//if we have 2 cin, we can reuse the data in the buffer if is spaced, like: "123 22", cin \>\> a; cin \>\> b; a = 123, b = 22**
+    can be combined **```cin >> data1 >> data2```**
 
-**// we insert based on the type specified, can throw errors**
+    White spaces are ignored
 
-**// read from the keyboard buffer**
+    if we have 2 cin, we can reuse the data in the buffer if is spaced, like: 
+    ```c++ 
+    std::cin >> a; 
+    std::cin >> b;
+    // By inserting in console:  "123 22"
+    a = 123;
+    b = 22;
+    ```
+    - we insert based on the **type specified**, can **throw errors**
 
-- **cerr**
-- **clog**
 
-- **\<\< // Insertion operator, output streams**
-- **\>\> // Extraction operator, input streams**
+- **```std::cerr```**
+- **```std::clog```**
+
+- **```<<```** Insertion operator, output streams**
+- **```\>\>```** // Extraction operator, input streams**
 
 **Variables**
 
