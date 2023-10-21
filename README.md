@@ -129,13 +129,13 @@ Containers to group code entities in namespace scopes, allowing us to avoid name
 we can avoid retyping every time the same namespace::identifier with **using**:
 
 ```c++ 
-using namespace std //using the entire namespace
+using namespace std; //using the entire namespace
 
-using namespace std::cout //using only that identifier in the namespace
+using namespace std::cout; //using only that identifier in the namespace
 
-using namespace std::cin
+using namespace std::cin;
 
-using namespace std::endl
+using namespace std::endl;
 ```
 
 
@@ -173,44 +173,70 @@ using namespace std::endl
 - **```>>```**  
   **Extraction operator**, input streams
 
-## Variables
+# Variables
 
-![](RackMultipart20231019-1-z5pq4_html_ef91e1f29b762af0.png)
+> **The name associated with a specific Memory Address (L-Value) and the type of data (R-Value) that the variable will contain.**
 
-**The name associated with a specific Memory Address (L-Value) and the type of data (R-Value) that the variable will contain.**
+![Variables and memory](Images/VariablesAndMemory.png)
+
+## **Initializations**
 
 **Never use a variable that is not initialized**
 
 There are 3 types of initializations in C++
 
-![](RackMultipart20231019-1-z5pq4_html_32f62cd41975751a.png)
+```c++
 
-**Scope of a variable**
+int age; // Un-initialized
 
-The area/region of the code where we can access that specific variable;
+int age = 21;   // .1 - C-Like initialization
+int age (21);   // .2 - Constructor initialization
+int age {21};   // .3 - C++ List initialization
+```
 
-- **Local variable** are visible inside { }
-- **Global variable** are visible in the hole program and are initialized at 0;
 
-The compiler looks at variable like this:
+## **Scope of a variable**
 
-- **First** in the scope which there is the variable (looks for a **local variable** dec)
-- **Then** looks at the **global variables**![](Images/VariablesAndMemory.png)
+>The **area/region** of the code where we can **access** that specific **variable**;
 
-**Primitive Data Types**
+- ### **Local variable** 
+  - ```visible inside { }```
+- ### **Global variable**   
+  - ```visible``` in the ```hole program``` 
+  - ```initialized at 0```;
 
-- Char
-- Int
-- Float/Double
-- Boolean
 
-The size and precision of these data types depend on the machine we are running the program on.
+### The compiler looks at variable like this:
 
-With the preprocessor directive **#include \<climits\>** we can check that
+- **First** in the scope which there is the variable (looks for a **```local variable```** dec)
+- **Then** looks at the **```global variables```**
 
-Usual sizes and precision:
+```c++
+#include <iostream>
 
-([https://www.programiz.com/cpp-programming/data-types#:~:text=C%2B%2B%20int,values%20from%20%2D2147483648%20to%202147483647](https://www.programiz.com/cpp-programming/data-types#:~:text=C%2B%2B%20int,values%20from%20%2D2147483648%20to%202147483647).)
+int age{19};
+
+int main(){
+
+  int age{21};
+  std::cout << age << std::endl;
+
+  return 0;
+}
+```
+
+
+## **Primitive Data Types**
+
+- ### **```Char```**
+- ### **```Int```**
+- ### **```Float/Double```**
+- ### **```Boolean```**
+
+The size and precision of these data types depend on the machine we are running the program on.  
+With the preprocessor directive **```#include <climits>```** we can check that
+
+Usual sizes and [precision](https://www.programiz.com/cpp-programming/data-types#:~:text=C%2B%2B%20int,values%20from%20%2D2147483648%20to%202147483647):
 
 **Char**
 
