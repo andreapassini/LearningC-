@@ -725,3 +725,142 @@ To prevent the .h file to be included more than once, we can use
 - **Pragma Once**
 
 Does the same job, but may be not declared in every compilers
+
+
+## Constructors
+
+A special member method:
+- invoked during object creation.  
+- Useful for initialization.
+- Same name as the class
+- No return type
+- Can ve overloaded
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  // Overloaded Constructors
+  Player();
+  Player(std::string name);
+  Player(std::string name, int health, int xp);
+}
+```
+
+### Default Constructor
+
+Called when we don't write any constructor.
+- It does not require any parameters
+- It does nothing, it only allocate memory with garbage values
+
+```c++
+Player frank;
+Player* enemy = new Player;
+```
+
+If we write a Constructor, C++ will no longer generate it and it will be used the one you created.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  int getHealth(){
+    return this->health;
+  }
+  // Overloaded Constructors
+  Player(){
+    name = "None"
+    health = 100;
+    xp = 3;
+  }
+}
+
+int main(){
+  Player frank;
+  std::cout << frank.getHealth();  // Output: 100
+
+  return 0;
+}
+```
+
+But if we create a non-default constructor and not a zero-args/default constructor, it will not be generated.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  int getHealth(){
+    return this->health;
+  }
+  // Overloaded Constructors
+  Player(std::string n){
+    this.name = n
+    health = 100;
+    xp = 3;
+  }
+}
+
+int main(){
+  Player frank; /// ERROR 
+
+  // We have to do this
+  Player frank = Player("halo")
+
+  return 0;
+}
+```
+
+## Destructors
+
+A special member method, as a Constructor:
+
+- Same name of class, but proceed with a tilde (~)
+- Invoked automatically when the object is destroyed.
+  - When the object goes out of scope
+  - When we delete the pointer to an object
+- No return type and no parameters
+- Only 1 destructor per class is allowed
+- Useful to release memory
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  // Overloaded Constructors
+  Player();
+  Player(std::string name);
+  Player(std::string name, int health, int xp);
+  
+  // Destructor
+  ~Player();
+}
+```
+
+### Example
+```c++
+{
+  Player slayer;
+  Player frank("Frank", 100, 4);
+  Player hero ("Hero");
+  Player villain ("Villain");
+  // Created 4 objects in the stack
+  // When we go out of this scope they will be deleted
+} // 4 destructors called
+
+
+Player* enemy = new Player("Enemy", 1000, 0);
+delete enemy; 
+```
+
