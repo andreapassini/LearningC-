@@ -819,6 +819,75 @@ int main(){
 }
 ```
 
+### Constructor Initialization Lists
+
+The other constructor are not really initializing the data with the value that we are passing. They allocate the memory with garbage values and the then change the values.  What we want to achieve is initializing the memory with the right values, making it more efficient and a true initialization.
+
+
+We can to this with List Initializer that is just a list of initializer after the constructor declaration.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  int getHealth(){
+    return this->health;
+  }
+
+  Player(): name{"None"}, health{0}, xp{0} {
+  }
+
+  Player(std::string name_val, int health_val, int xp_val): 
+      name{name_val}, health{health_val}, xp{xp_val} {
+  }
+}
+
+int main(){
+  Player frank;
+
+  return 0;
+}
+```
+
+The order of the member initialized is not important.
+
+### Delegating Constructor
+
+The goal is to reduce duplicated code.
+We can **call another constructor from the initialization list**.  It works only with initialization list as in the example.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  int getHealth(){
+    return this->health;
+  }
+
+  Player(std::string name_val, int health_val, int xp_val): 
+      name{name_val}, health{health_val}, xp{xp_val} {
+  }
+
+  Player(): Player{"None", 0, 0} {
+  }
+
+  Player(std::string name_val): Player{name_val, 0, 0} {
+  }
+}
+
+int main(){
+  Player frank;
+
+  return 0;
+}
+```
+
 ## Destructors
 
 A special member method, as a Constructor:
