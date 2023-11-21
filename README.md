@@ -888,6 +888,101 @@ int main(){
 }
 ```
 
+### Default constructor
+
+Provide default values in the constructor with optional parameters but be have to use initializer list so the compiler will take care of that.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  Player(std::string name_val = "None",
+          int health_val = 0,
+          int xp_val = 0);
+}
+
+Player::Player(std::string name_val, int health_val, int xp_val): 
+                name {name_val}, health{health_val}, xp{xp_val} {
+}
+
+Player empty;             // None, 0, 0
+Player hero{"Hero", 100}; // Hero, 100, 0
+```
+They are really handy since with just one constructor, other n (n number of arguments) constructors will be generated at compile time.
+We must not create ambiguous constructors, otherwise the complier will generate an error since it will not be able to understand which constructor to use.
+
+## Copy Constructor
+
+When objects are copied, C++ must create a new object from an existing object.  
+When a copy is made?  
+- **Passing** object by **value** as a parameter
+- **Returning** an object from a function by **value**
+- **Constructing** an object **based on another** of the same class
+
+There is a default one if we do not specify one.
+
+```c++
+Player hero {"Hero", 100, 20};
+displayPlayer(hero);
+
+void displayPlayer(Player p){
+  // p created as a COPY of hero
+  // use p
+  // Destructor of p will be called
+}
+```
+
+```c++
+Player enemy;
+enemy = createSuperEnemy();
+
+Player createSuperEnemy(){
+  Player anEnemy{"Super Enemy", 1000, 1000};
+  return anEnemy;   // A COPY of anEnemy is returned by value
+}
+```
+
+```c++
+Player hero {"Hero", 100, 20};
+Player another_hero {hero}; // a COPY of hero is made
+```
+
+### Default copy constructor
+Is the one generated if no copy constructor is specified.
+- It will copy the values of each data member
+
+- If you have and **object** as a member, their copy constructor will be called.
+- If you have a **pointer** member:
+  - Pointer will be copied
+  - Not what it is pointing to (Shallow Copy)
+
+### Best practices
+- Provide a copy constructor when you have **raw pointers**.
+- Provide the copy constructor with **const reference** parameter.
+- STL classes already have a copy constructor
+- Avoid using raw pointer data members, use smart pointer
+
+### Implementation
+```c++
+// We want to use const ref, 
+// as a ref: since if we were passing it by value we will end up in infinite recursive calls since we are providing a definition for a copy constructor
+// as a const: since we dont want to modify the source object
+Player::Player(const Player &source): 
+  name{source.name}, health{source.health}, xp{source.xp}{
+    // some extra code
+    // std::cout << "Copy constructor called" << std::endl;
+}
+
+// We could also use a delegate constructor
+Player::Player(const Player &source): 
+  Player{source.name, source.health ,source.xp}{
+}
+
+```
+
 ## Destructors
 
 A special member method, as a Constructor:
