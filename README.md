@@ -1095,8 +1095,120 @@ int main() {
 
 Introduced in C++ 11
 
+In move semantics, r-values are temporary objects created by the compiler. And objects return from methods.  
+If the copy constructor is called over and over again, it will make a lot of overhead, if we do deep copies, it is even bigger.
 
+The **Move Constructor** moves the object instead of coping it.
 
+They are optional but they are really efficient.  If in the debug you don't see copy or move constructor being called this could be because of **Copy elision**. In simpler wards, the compiler makes an optimization, removing un-necessary copies.
+
+### R-Value References
+References to the temporary objects created by the compiler. Called using **&&**.
+
+```c++
+int x {100};
+int &l_ref = x; // L-value ref
+l_ref = 10;     // change x to 10
+
+int &&r_ref = 200;  // R-value ref
+r_ref = 300;        // Change r_ref to 300
+
+int &&x_ref = x;  // Compiler error
+```
+```c++
+int x {100};  // x is an L-value
+
+void funcA(int &num);  // A
+
+funcA(x);  // Calls A - x is an L-value
+funcA(200);   // ERROR - 200 is an R-value
+```
+```c++
+int x {100};  // x is an L-value
+
+void funcB(int &&num);  // B
+
+funcB(200);  // Calls B - 200 is an R-value
+funcB(x);  // ERROR - x is an L-value
+```
+```c++
+int x {100};  // x is an L-value
+
+void func(int &num);  // A
+void func(int &&num);    // B
+
+func(200);  // Calls B - 200 is an R-value
+func(x);  // Calls A - x is an L-value
+```
+
+### Example-Move Class
+```c++
+class Move {
+private:
+  int* data;
+public:
+  void set_data_value(int d)  { *data = d;}
+  int get_data_value()  { return *data; }
+  Move(int d);  // Constructor 
+  Move(const Move &source);  // Copy Constructor
+  ~Move();
+}
+// Copy Constructor, Deep copy
+Move::Move(const Move &source){
+  data = new int;
+  *data = *source.data;
+}
+```
+
+``` c++
+int main(){
+  std::vector<Move> vec;
+
+  vec.push_back(Move{10});  // Copy constr
+  vec.push_back(Move{20});
+}
+```
+Move{10} and Move{20} are R-values created by the constructor.
+
+Let's add a **Move Constructor**.
+- It will moves the resources on the heap.
+- Copies the address of the resource from source to the current object.
+- Nulls out the pointer in the source pointer.
+
+#### Syntax
+``` c++
+Type::Type(Type &&source);
+Move::Move(Move &&source);
+```
+
+### Move Constructor Implementation
+```c++
+class Move {
+private:
+  int* data;
+public:
+  void set_data_value(int d)  { *data = d;}
+  int get_data_value()  { return *data; }
+  Move(int d);  // Constructor 
+  Move(const Move &source);  // Copy Constructor
+  Move(Move &&source);  // Move Constructor
+  ~Move();
+}
+// Move Constructor, it steals the data
+Move::Move(Move &&source){
+  : data{source.data};
+  source.data = nullptr;
+}
+```
+``` c++
+int main(){
+  std::vector<Move> vec;
+
+  // Now the move constructor will be called
+  vec.push_back(Move{10});  // Copy constr
+  vec.push_back(Move{20});
+}
+```
 ## Destructors
 
 A special member method, as a Constructor:
