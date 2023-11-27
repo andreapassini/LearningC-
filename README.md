@@ -615,7 +615,7 @@ L-values can be both on left and right side of an assignment statement, R-Values
   - The parameter is expensive to copy (like a big structure)
   - Is allowed a nullptr value for the pointer (nullptr like leafs in trees)
   -
-- **Pass-by-reference using a POINTER to CONST**
+- **Pass-by-reference using a CONST POINTER to CONST**
   - Function does NOT modify the actual parameter
   - The parameter is expensive to copy (like a big structure)
   - Is allowed a nullptr value for the pointer (nullptr like leafs in trees)
@@ -980,8 +980,122 @@ Player::Player(const Player &source):
 Player::Player(const Player &source): 
   Player{source.name, source.health ,source.xp}{
 }
-
 ```
+
+### Shallow Copy
+
+The default behavior provided by the compiler generated copy constructor. It creates a copy of all the members of the object. 
+
+**Pointers are copied but not what they are pointing at.**
+
+When we call the **Destructor** of the object at the r-value of the =, it releases the memory that our object is pointing at.
+
+```c++
+class Shallow {
+private:
+  int *data;
+public:
+  Shallow(int d);
+  Shallow(const Shallow &source);
+  ~Shallow();
+}
+
+Shallow::Shallow(int d) {
+  data = new int;
+  *data = d;
+}
+Shallow::~Shallow() {
+  delete(data);
+  std::cout << "Destructor";
+}
+// Same as default copy constructor
+Shallow::Shallow(const Shallow &source)
+  : data(source.data) {
+    std::cout << "Copy constructor - shallow" << std::endl;
+}
+```
+
+Now the source and the object how called the copy point to the same area of memory (with int* data).
+
+```c++
+void display_shallow(Shallow s){ // Passed by copy
+  std::cout << s.getData() << std::endl;
+}
+
+int main() {
+  Shallow obj1 {100};
+  display_shallow(obj1);  // Passing it by Shallow Copy
+  // obj1's data has been released
+  // since it has been passed by copy 
+  // and the copy goes out of scope
+
+  obj1.set_data_value(1000);
+  Shallow obj2 {obj1};
+  std::cout << "Hello W" << std::endl;
+  return 0;
+}
+```
+
+### Deep Copy
+
+The pointers arent copied, but the copied object will have a pointer to a unique storage of memory on the heap. Coping the data that the pointer is pointing to.
+
+We use it when we have raw c++ pointers.
+
+```c++
+class Deep {
+private:
+  int *data;
+public:
+  Deep(int d);
+  Deep(const Deep &source);
+  ~Deep();
+}
+Deep::Deep(int d) {
+  data = new int;
+  *data = d;
+}
+Deep::~Deep() {
+  delete(data);
+  std::cout << "Destructor";
+}
+
+Deep::Deep(const Deep &source) {
+  data = new int;
+  *data = *source.data;
+
+  std::cout << "Copy constructor - deep" << std::endl;
+}
+// We also can use a delegate constructor
+Deep::Deep(const Deep &source) 
+  : Deep{*source.data}{
+  std::cout << "Copy constructor - deep" << std::endl;
+}
+```
+
+There will not be anymore the problem of the shallow copy going out of scope and freeing memory pointed from someone else.
+
+```c++
+void display_deep(Deep s){ // Passed by copy
+  std::cout << s.getData() << std::endl;
+}
+
+int main() {
+  Deep obj1 {100};
+  display_deep(obj1);  // Passing it by Shallow Copy
+
+  obj1.set_data_value(1000);
+  Deep obj2 {obj1};
+  std::cout << "Hello W" << std::endl;
+  return 0;
+}
+```
+
+## Move Constructor
+
+Introduced in C++ 11
+
+
 
 ## Destructors
 
