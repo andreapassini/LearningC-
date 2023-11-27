@@ -1254,3 +1254,96 @@ Player* enemy = new Player("Enemy", 1000, 0);
 delete enemy; 
 ```
 
+## This
+
+**This** is a reserved keyword that contains the address of the object, so it's a pointer to itself.
+- Can only be used in the scope of the class
+- We can access all the members of the class
+
+## Const in classes
+
+We can use it for:
+
+- Passing a const argument to a class method
+- Create const objects
+
+```c++
+const Player villain {"Villain", 100, 55};
+
+villain.setName("AAA"); // ERROR
+std::cout << villain.getName() << std::endl;  // ERROR
+// The compiler thinks that getName could change the object, 
+// we should make it const
+```
+```c++
+const Player villain {"Villain", 100, 55};
+
+void DisplayName(const Player &p) {
+  std::cout << p.getName() << std::endl;
+}
+
+DisplayName(villain); // ERROR
+```
+
+We should specify that the method will not modify the object.
+
+```c++
+class Player {
+private:
+
+public:
+  std::string getName() const; 
+   // The method will not modify the object
+   // Will rise an ERROR if we try to modify the object
+}
+
+const Player villain {"Villain", 100, 55};
+villain.getName(); 
+```
+
+## Static class members
+
+When a member is **static** it means that it is related to the class in general and not to a specific instance of it, not to an object.
+
+How can we keep track of how many objects of the same class, exists?
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+public:
+  static int getNumberOfPlayers();
+  Player() {
+    ...
+    this->numberOfPlayers++;
+  }
+  ~Player(){
+    this->numberOfPlayers--;
+  }
+}
+
+// In the .cpp
+#include "player.h";
+int Player::numberOfPlayers = 0;
+int Player::getNumberOfPlayers(){ // It can access only static data members.
+  return Player::numberOfPlayers;
+}
+```
+
+
+# Struct
+
+They comes from C, they are simply a container for data.
+It threats **strcuts** as **classes**, everything that you can do with classes you could do with structs.
+Only difference:
+- Struct members are public by default.
+- Class members are private by default.
+
+To differentiate them we could follows some guidelines:
+- **Struct**
+  - For passive objects with public access.
+  - Do not declare methods inside the struct.
+
+- **Classes**
+  - Active objects with private fields.
+  - Implement getter/setter when needed.
+  - Implement member methods when needed.
