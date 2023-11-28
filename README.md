@@ -1330,7 +1330,7 @@ int Player::getNumberOfPlayers(){ // It can access only static data members.
 ```
 
 
-# Struct
+## **Struct**
 
 They comes from C, they are simply a container for data.
 It threats **strcuts** as **classes**, everything that you can do with classes you could do with structs.
@@ -1347,3 +1347,64 @@ To differentiate them we could follows some guidelines:
   - Active objects with private fields.
   - Implement getter/setter when needed.
   - Implement member methods when needed.
+
+
+## **Friend**
+
+Is **function** or a **class** that has **access to the private class members.**
+While not being a member of the class it is accessing.
+
+If it is:
+- **Function**
+  - Can be regular **non-member function**
+  - Can be **member** of another class
+      The entire class will have access to the other class private members.
+- **Class**
+
+Some properties and rules of **Friendship**:
+- **Friendship** must be **granted NOT taken**.
+  - Declared explicitly in the class that is granting friendship
+  - Declared in the function prototype with the keyword ```friend```
+
+- **Friendship** is not **symmetric**
+- **Friendship** is not transitive:
+  - if A is friend of B
+  - if A is friend of C
+  - B is not friend of C or vice-versa
+
+### Friend function of the same class
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+  friend void displayPlayer(Player &p); // now this function has access to everything in that class
+public:
+}
+void displayPlayer(Player &p){
+  std::cout << p.numberOfPlayers << std::endl;
+}
+```
+### Friend function of another class
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+  friend void OtherClass::displayPlayer(Player &p); // now this function has access to everything in that class
+public:
+}
+
+class OtherClass {
+  void displayPlayer(Player &p){
+    std::cout << p.numberOfPlayers << std::endl
+  }
+}
+```
+### Entire class as a Friend
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+  friend class OtherClass;
+public:
+}
+```
