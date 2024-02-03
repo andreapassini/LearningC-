@@ -1408,3 +1408,33 @@ private:
 public:
 }
 ```
+
+&nbsp;
+
+# **Operator Overloading**
+
+
+The traditional operators: ```+. -. *, /``` etc, are already implemented for built-in types (int, double...). We want to use this operators but for user-defined types. The only operator that is always implemented by default even for built-in operators is: ```=```, the others must be implemented.
+
+**Cannot** be overloaded:
+
+- ```::```  Scope resolution
+- ```:?```  Condditional operator 
+- ```.*```  
+- ```.```
+- ```sizeof```
+
+## Rules
+
+Some rules must be followed when overloading operators
+
+- **Precedence** and **Associativity** cannot be changed.
+- **arity** cannot be changed (Make the division operator **unary**).
+- Can't overload operators for primitive type (int, double, etc)
+- Can't create new operators
+- ```[]```, ```()```, ```->``` and the assignment operator ```=```, must be declared as memeber methods.
+- Other operators can be declared as memeber methods or global functions
+
+
+
+
