@@ -615,7 +615,7 @@ L-values can be both on left and right side of an assignment statement, R-Values
   - The parameter is expensive to copy (like a big structure)
   - Is allowed a nullptr value for the pointer (nullptr like leafs in trees)
   -
-- **Pass-by-reference using a POINTER to CONST**
+- **Pass-by-reference using a CONST POINTER to CONST**
   - Function does NOT modify the actual parameter
   - The parameter is expensive to copy (like a big structure)
   - Is allowed a nullptr value for the pointer (nullptr like leafs in trees)
@@ -819,6 +819,396 @@ int main(){
 }
 ```
 
+### Constructor Initialization Lists
+
+The other constructor are not really initializing the data with the value that we are passing. They allocate the memory with garbage values and the then change the values.  What we want to achieve is initializing the memory with the right values, making it more efficient and a true initialization.
+
+
+We can to this with List Initializer that is just a list of initializer after the constructor declaration.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  int getHealth(){
+    return this->health;
+  }
+
+  Player(): name{"None"}, health{0}, xp{0} {
+  }
+
+  Player(std::string name_val, int health_val, int xp_val): 
+      name{name_val}, health{health_val}, xp{xp_val} {
+  }
+}
+
+int main(){
+  Player frank;
+
+  return 0;
+}
+```
+
+The order of the member initialized is not important.
+
+### Delegating Constructor
+
+The goal is to reduce duplicated code.
+We can **call another constructor from the initialization list**.  It works only with initialization list as in the example.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  int getHealth(){
+    return this->health;
+  }
+
+  Player(std::string name_val, int health_val, int xp_val): 
+      name{name_val}, health{health_val}, xp{xp_val} {
+  }
+
+  Player(): Player{"None", 0, 0} {
+  }
+
+  Player(std::string name_val): Player{name_val, 0, 0} {
+  }
+}
+
+int main(){
+  Player frank;
+
+  return 0;
+}
+```
+
+### Default constructor
+
+Provide default values in the constructor with optional parameters but be have to use initializer list so the compiler will take care of that.
+
+```c++
+class Player{
+private:
+  std::string name;
+  int health;
+  int xp;
+public:
+  Player(std::string name_val = "None",
+          int health_val = 0,
+          int xp_val = 0);
+}
+
+Player::Player(std::string name_val, int health_val, int xp_val): 
+                name {name_val}, health{health_val}, xp{xp_val} {
+}
+
+Player empty;             // None, 0, 0
+Player hero{"Hero", 100}; // Hero, 100, 0
+```
+They are really handy since with just one constructor, other n (n number of arguments) constructors will be generated at compile time.
+We must not create ambiguous constructors, otherwise the complier will generate an error since it will not be able to understand which constructor to use.
+
+## Copy Constructor
+
+When objects are copied, C++ must create a new object from an existing object.  
+When a copy is made?  
+- **Passing** object by **value** as a parameter
+- **Returning** an object from a function by **value**
+- **Constructing** an object **based on another** of the same class
+
+There is a default one if we do not specify one.
+
+```c++
+Player hero {"Hero", 100, 20};
+displayPlayer(hero);
+
+void displayPlayer(Player p){
+  // p created as a COPY of hero
+  // use p
+  // Destructor of p will be called
+}
+```
+
+```c++
+Player enemy;
+enemy = createSuperEnemy();
+
+Player createSuperEnemy(){
+  Player anEnemy{"Super Enemy", 1000, 1000};
+  return anEnemy;   // A COPY of anEnemy is returned by value
+}
+```
+
+```c++
+Player hero {"Hero", 100, 20};
+Player another_hero {hero}; // a COPY of hero is made
+```
+
+### Default copy constructor
+Is the one generated if no copy constructor is specified.
+- It will copy the values of each data member
+
+- If you have and **object** as a member, their copy constructor will be called.
+- If you have a **pointer** member:
+  - Pointer will be copied
+  - Not what it is pointing to (Shallow Copy)
+
+### Best practices
+- Provide a copy constructor when you have **raw pointers**.
+- Provide the copy constructor with **const reference** parameter.
+- STL classes already have a copy constructor
+- Avoid using raw pointer data members, use smart pointer
+
+### Implementation
+```c++
+// We want to use const ref, 
+// as a ref: since if we were passing it by value we will end up in infinite recursive calls since we are providing a definition for a copy constructor
+// as a const: since we dont want to modify the source object
+Player::Player(const Player &source): 
+  name{source.name}, health{source.health}, xp{source.xp}{
+    // some extra code
+    // std::cout << "Copy constructor called" << std::endl;
+}
+
+// We could also use a delegate constructor
+Player::Player(const Player &source): 
+  Player{source.name, source.health ,source.xp}{
+}
+```
+
+### Shallow Copy
+
+The default behavior provided by the compiler generated copy constructor. It creates a copy of all the members of the object. 
+
+**Pointers are copied but not what they are pointing at.**
+
+When we call the **Destructor** of the object at the r-value of the =, it releases the memory that our object is pointing at.
+
+```c++
+class Shallow {
+private:
+  int *data;
+public:
+  Shallow(int d);
+  Shallow(const Shallow &source);
+  ~Shallow();
+}
+
+Shallow::Shallow(int d) {
+  data = new int;
+  *data = d;
+}
+Shallow::~Shallow() {
+  delete(data);
+  std::cout << "Destructor";
+}
+// Same as default copy constructor
+Shallow::Shallow(const Shallow &source)
+  : data(source.data) {
+    std::cout << "Copy constructor - shallow" << std::endl;
+}
+```
+
+Now the source and the object how called the copy point to the same area of memory (with int* data).
+
+```c++
+void display_shallow(Shallow s){ // Passed by copy
+  std::cout << s.getData() << std::endl;
+}
+
+int main() {
+  Shallow obj1 {100};
+  display_shallow(obj1);  // Passing it by Shallow Copy
+  // obj1's data has been released
+  // since it has been passed by copy 
+  // and the copy goes out of scope
+
+  obj1.set_data_value(1000);
+  Shallow obj2 {obj1};
+  std::cout << "Hello W" << std::endl;
+  return 0;
+}
+```
+
+### Deep Copy
+
+The pointers arent copied, but the copied object will have a pointer to a unique storage of memory on the heap. Coping the data that the pointer is pointing to.
+
+We use it when we have raw c++ pointers.
+
+```c++
+class Deep {
+private:
+  int *data;
+public:
+  Deep(int d);
+  Deep(const Deep &source);
+  ~Deep();
+}
+Deep::Deep(int d) {
+  data = new int;
+  *data = d;
+}
+Deep::~Deep() {
+  delete(data);
+  std::cout << "Destructor";
+}
+
+Deep::Deep(const Deep &source) {
+  data = new int;
+  *data = *source.data;
+
+  std::cout << "Copy constructor - deep" << std::endl;
+}
+// We also can use a delegate constructor
+Deep::Deep(const Deep &source) 
+  : Deep{*source.data}{
+  std::cout << "Copy constructor - deep" << std::endl;
+}
+```
+
+There will not be anymore the problem of the shallow copy going out of scope and freeing memory pointed from someone else.
+
+```c++
+void display_deep(Deep s){ // Passed by copy
+  std::cout << s.getData() << std::endl;
+}
+
+int main() {
+  Deep obj1 {100};
+  display_deep(obj1);  // Passing it by Shallow Copy
+
+  obj1.set_data_value(1000);
+  Deep obj2 {obj1};
+  std::cout << "Hello W" << std::endl;
+  return 0;
+}
+```
+
+## Move Constructor
+
+Introduced in C++ 11
+
+In move semantics, r-values are temporary objects created by the compiler. And objects return from methods.  
+If the copy constructor is called over and over again, it will make a lot of overhead, if we do deep copies, it is even bigger.
+
+The **Move Constructor** moves the object instead of coping it.
+
+They are optional but they are really efficient.  If in the debug you don't see copy or move constructor being called this could be because of **Copy elision**. In simpler wards, the compiler makes an optimization, removing un-necessary copies.
+
+### R-Value References
+References to the temporary objects created by the compiler. Called using **&&**.
+
+```c++
+int x {100};
+int &l_ref = x; // L-value ref
+l_ref = 10;     // change x to 10
+
+int &&r_ref = 200;  // R-value ref
+r_ref = 300;        // Change r_ref to 300
+
+int &&x_ref = x;  // Compiler error
+```
+```c++
+int x {100};  // x is an L-value
+
+void funcA(int &num);  // A
+
+funcA(x);  // Calls A - x is an L-value
+funcA(200);   // ERROR - 200 is an R-value
+```
+```c++
+int x {100};  // x is an L-value
+
+void funcB(int &&num);  // B
+
+funcB(200);  // Calls B - 200 is an R-value
+funcB(x);  // ERROR - x is an L-value
+```
+```c++
+int x {100};  // x is an L-value
+
+void func(int &num);  // A
+void func(int &&num);    // B
+
+func(200);  // Calls B - 200 is an R-value
+func(x);  // Calls A - x is an L-value
+```
+
+### Example-Move Class
+```c++
+class Move {
+private:
+  int* data;
+public:
+  void set_data_value(int d)  { *data = d;}
+  int get_data_value()  { return *data; }
+  Move(int d);  // Constructor 
+  Move(const Move &source);  // Copy Constructor
+  ~Move();
+}
+// Copy Constructor, Deep copy
+Move::Move(const Move &source){
+  data = new int;
+  *data = *source.data;
+}
+```
+
+``` c++
+int main(){
+  std::vector<Move> vec;
+
+  vec.push_back(Move{10});  // Copy constr
+  vec.push_back(Move{20});
+}
+```
+Move{10} and Move{20} are R-values created by the constructor.
+
+Let's add a **Move Constructor**.
+- It will moves the resources on the heap.
+- Copies the address of the resource from source to the current object.
+- Nulls out the pointer in the source pointer.
+
+#### Syntax
+``` c++
+Type::Type(Type &&source);
+Move::Move(Move &&source);
+```
+
+### Move Constructor Implementation
+```c++
+class Move {
+private:
+  int* data;
+public:
+  void set_data_value(int d)  { *data = d;}
+  int get_data_value()  { return *data; }
+  Move(int d);  // Constructor 
+  Move(const Move &source);  // Copy Constructor
+  Move(Move &&source);  // Move Constructor
+  ~Move();
+}
+// Move Constructor, it steals the data
+Move::Move(Move &&source){
+  : data{source.data};
+  source.data = nullptr;
+}
+```
+``` c++
+int main(){
+  std::vector<Move> vec;
+
+  // Now the move constructor will be called
+  vec.push_back(Move{10});  // Copy constr
+  vec.push_back(Move{20});
+}
+```
 ## Destructors
 
 A special member method, as a Constructor:
@@ -864,3 +1254,157 @@ Player* enemy = new Player("Enemy", 1000, 0);
 delete enemy; 
 ```
 
+## This
+
+**This** is a reserved keyword that contains the address of the object, so it's a pointer to itself.
+- Can only be used in the scope of the class
+- We can access all the members of the class
+
+## Const in classes
+
+We can use it for:
+
+- Passing a const argument to a class method
+- Create const objects
+
+```c++
+const Player villain {"Villain", 100, 55};
+
+villain.setName("AAA"); // ERROR
+std::cout << villain.getName() << std::endl;  // ERROR
+// The compiler thinks that getName could change the object, 
+// we should make it const
+```
+```c++
+const Player villain {"Villain", 100, 55};
+
+void DisplayName(const Player &p) {
+  std::cout << p.getName() << std::endl;
+}
+
+DisplayName(villain); // ERROR
+```
+
+We should specify that the method will not modify the object.
+
+```c++
+class Player {
+private:
+
+public:
+  std::string getName() const; 
+   // The method will not modify the object
+   // Will rise an ERROR if we try to modify the object
+}
+
+const Player villain {"Villain", 100, 55};
+villain.getName(); 
+```
+
+## Static class members
+
+When a member is **static** it means that it is related to the class in general and not to a specific instance of it, not to an object.
+
+How can we keep track of how many objects of the same class, exists?
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+public:
+  static int getNumberOfPlayers();
+  Player() {
+    ...
+    this->numberOfPlayers++;
+  }
+  ~Player(){
+    this->numberOfPlayers--;
+  }
+}
+
+// In the .cpp
+#include "player.h";
+int Player::numberOfPlayers = 0;
+int Player::getNumberOfPlayers(){ // It can access only static data members.
+  return Player::numberOfPlayers;
+}
+```
+
+
+## **Struct**
+
+They comes from C, they are simply a container for data.
+It threats **strcuts** as **classes**, everything that you can do with classes you could do with structs.
+Only difference:
+- Struct members are public by default.
+- Class members are private by default.
+
+To differentiate them we could follows some guidelines:
+- **Struct**
+  - For passive objects with public access.
+  - Do not declare methods inside the struct.
+
+- **Classes**
+  - Active objects with private fields.
+  - Implement getter/setter when needed.
+  - Implement member methods when needed.
+
+
+## **Friend**
+
+Is **function** or a **class** that has **access to the private class members.**
+While not being a member of the class it is accessing.
+
+If it is:
+- **Function**
+  - Can be regular **non-member function**
+  - Can be **member** of another class
+      The entire class will have access to the other class private members.
+- **Class**
+
+Some properties and rules of **Friendship**:
+- **Friendship** must be **granted NOT taken**.
+  - Declared explicitly in the class that is granting friendship
+  - Declared in the function prototype with the keyword ```friend```
+
+- **Friendship** is not **symmetric**
+- **Friendship** is not transitive:
+  - if A is friend of B
+  - if A is friend of C
+  - B is not friend of C or vice-versa
+
+### Friend function of the same class
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+  friend void displayPlayer(Player &p); // now this function has access to everything in that class
+public:
+}
+void displayPlayer(Player &p){
+  std::cout << p.numberOfPlayers << std::endl;
+}
+```
+### Friend function of another class
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+  friend void OtherClass::displayPlayer(Player &p); // now this function has access to everything in that class
+public:
+}
+
+class OtherClass {
+  void displayPlayer(Player &p){
+    std::cout << p.numberOfPlayers << std::endl
+  }
+}
+```
+### Entire class as a Friend
+```c++
+class Player {
+private:
+  static int numberOfPlayers;
+  friend class OtherClass;
+public:
+}
+```

@@ -45,3 +45,7 @@ GuessTheTriangle/.idea/.idea.GuessTheTriangle/.idea/vcs.xml
 GuessTheTriangle/GuessTheTriangle/GuessTheTriangle.vcxproj.filters
 GuessTheTriangle/GuessTheTriangle/x64/Debug/GuessTheTriangle.exe.recipe
 *.log
+
+
+// IntelliJ
+*/.idea/*
