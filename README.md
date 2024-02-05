@@ -1419,7 +1419,7 @@ The traditional operators: ```+. -. *, /``` etc, are already implemented for bui
 **Cannot** be overloaded:
 
 - ```::```  Scope resolution
-- ```:?```  Condditional operator 
+- ```:?```  Conditional operator 
 - ```.*```  
 - ```.```
 - ```sizeof```
@@ -1432,9 +1432,71 @@ Some rules must be followed when overloading operators
 - **arity** cannot be changed (Make the division operator **unary**).
 - Can't overload operators for primitive type (int, double, etc)
 - Can't create new operators
-- ```[]```, ```()```, ```->``` and the assignment operator ```=```, must be declared as memeber methods.
-- Other operators can be declared as memeber methods or global functions
+- ```[]```, ```()```, ```->``` and the assignment operator ```=```, must be declared as member methods.
+- Other operators can be declared as member methods or global functions
 
+## Copy Assignment Operator **```=```**
 
+The Copy Assignment Operator **```=```** is not the initialization, that-s the constructor.  
+Works with **L-value References**.
 
+```c++
+MyString s1{"Andrea"} 
+MyString s2 = s1  // NOT assignment, but Initialization
+                  // Is the same as s2{s1} 
+s2 = s1;    // This is ASSIGNMENT
+            // S2 has already been created
+```
 
+Default is memberwise assignment (**shallow copy**), if there are raw pointers, consider doing a **deep copy**.
+
+### How to overload
+
+```c++
+Type &Type::operator=(const Type &rhs);
+```
+An example with the class created before
+
+```c++
+MyString &MyString::operator=(const MyString &rhs){
+  if(this == &rsh)
+    return this;
+
+  delete [] this->str;
+  str = new char[std::strlen(rsh.str) + 1]; // Deep Copy
+  std::strcpy(str, rsh.str);
+
+  return *this;
+}
+```
+
+## Move Assignment Operator **```=```**
+
+The Move Assignment Operator **```=```** works with **R-value References**.
+
+### When will it be used?
+
+```c++
+MyString s1;
+s1 = MyString{"Andrea"};  // Move Assignment
+s1 = "Andrea";
+```
+
+### How to overload
+
+```c++
+Type &Type::operator=(const Type &&rValue);
+```
+```c++
+MyString &MyString::operator=(const MyString &&rValue){
+  if(this == &rValue)
+    return this;
+
+  delete [] this->str;    // deallocate current storage
+  str = rValue.str; // Steal the pointer
+
+  rValue.str = nullptr; 
+
+  return *this;
+}
+```
