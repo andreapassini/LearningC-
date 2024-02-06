@@ -1495,7 +1495,7 @@ MyString &MyString::operator=(const MyString &&rValue){
   delete [] this->str;    // deallocate current storage
   str = rValue.str; // Steal the pointer
 
-  rValue.str = nullptr; 
+  rValue.str = nullptr;
 
   return *this;
 }
