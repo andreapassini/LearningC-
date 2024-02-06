@@ -824,7 +824,7 @@ int main(){
 The other constructor are not really initializing the data with the value that we are passing. They allocate the memory with garbage values and the then change the values.  What we want to achieve is initializing the memory with the right values, making it more efficient and a true initialization.
 
 
-We can to this with List Initializer that is just a list of initializer after the constructor declaration.
+We can to this with **List Initializer** that is just a list of initializer after the constructor declaration.
 
 ```c++
 class Player{
