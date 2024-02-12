@@ -29,7 +29,7 @@ public:
                     return (*this->_data != nullptr);
                 });
 
-                std::cout << "Render Loop, data: " << (**_data).elm << std::endl;
+                std::cout << "Render Loop, data: " << (**_data).elm << " " << "&d: " << (*_data) << std::endl;
                 data = *this->_data;
                 *this->_data = nullptr;
             }
