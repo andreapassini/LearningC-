@@ -40,10 +40,24 @@ public:
 
 };
 
+class StopWatch{
+public:
+    std::string message;
+
+    StopWatch(std::string message_val){
+        message = message_val;
+    }
+
+    ~StopWatch() {
+        std::cout << message << std::endl;
+    }
+};
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
+    StopWatch("AAAA");
+    /*
     Data* d = new Data();
     d->elm = 5;
     std::cout << "d: " << d << std::endl;
@@ -64,6 +78,15 @@ int main() {
         }
         conditionVariable.notify_one();
     }
+    */
+
+    std::cout << "1" << std::endl;
+    std::cout << "1" << std::endl;
+    std::cout << "1" << std::endl;
+    std::cout << "1" << std::endl;
+    std::cout << "1" << std::endl;
+    std::cout << "1" << std::endl;
+    std::cout << "1" << std::endl;
 
     return 0;
 }
