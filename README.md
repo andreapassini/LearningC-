@@ -1500,3 +1500,84 @@ MyString &MyString::operator=(const MyString &&rValue){
   return *this;
 }
 ```
+
+## Unary Operators as Member Function
+
+- ```operator-()```
+  ```c++
+  Number Number::operator-() const;
+  ```
+- ```operator++()```
+  ```c++
+  Number Number::operator++();  // Pre increment
+  ```
+- ```operator++(int)```
+  ```c++
+  Number Number::operator++(int);  // Post increment
+  ```
+- ```operator!()```
+  ```c++
+  bool Number::operator!() const;
+  ```
+
+```c++
+Number n1 {100};
+Number n2 = -n1;  // -()
+n2 = ++n1;        // ++()
+n2 = n1++;        // ++(int)
+```
+
+### How to overload
+
+Use the ```operator-()``` to make ```MyString``` lower case.
+
+```c++
+MyString MyString::operator-() const{
+  char* buff = new char[std::strlen(this->str) + 1];
+  std::strcpy(buff, this->str);
+  for(size_t i = 0; i<std::strlen(buf); i++){
+    buff[i] = std::tolower(buff[i]);
+  }
+  MyString temp{buff};
+  delete [] buff;
+  return temp;
+}
+```
+
+## Binary Operators as Member Function
+```c++
+c = a + b;
+```
+
+
+```this->``` points to the left hand side of the operation ```a```
+```rhs``` points to the right hand side of the operation ```b```
+
+The left hand side has to be an object of the class we are implementing the member function operator 
+
+- ```operator+(const Type &LVal) const```
+  ```c++
+  Number Number::operator+(const Number &rhs) const;
+  ```
+- ```operator-(const Type &LVal) const```
+  ```c++
+  Number Number::operator-(const Number &LVal) const;  // Pre increment
+  ```
+- ```operator==(const Type &LVal) const```
+  ```c++
+  bool Number::operator++(const Number &LVal) const;  // Post increment
+  ```
+- ```operator<(const Type &LVal) const```
+  ```c++
+  bool Number::operator<(const Number &LVal) const;
+  ```
+  
+```c++
+Number n1 {100};
+Number n2 {200};
+Number n3 = n1 + n2;
+n3 = n1 - n2;
+if(n1 == n2){
+  ...
+}
+```
