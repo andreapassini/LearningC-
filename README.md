@@ -1565,7 +1565,7 @@ The left hand side has to be an object of the class we are implementing the memb
   ```
 - ```operator==(const Type &LVal) const```
   ```c++
-  bool Number::operator++(const Number &LVal) const;  // Post increment
+  bool Number::operator==(const Number &LVal) const;  // Post increment
   ```
 - ```operator<(const Type &LVal) const```
   ```c++
@@ -1580,4 +1580,88 @@ n3 = n1 - n2;
 if(n1 == n2){
   ...
 }
+```
+
+## Unary Operators as global/non-member functions
+
+Since we do not have this to our disposal, they are often declared as friends in those classes.
+
+```c++
+ReturnType operatorOp(Type &obj);
+
+Number operator-(const Number &obj);
+Number operator++(const Number &obj);       // pre increment
+Number operator++(const Number &obj, int);  // post increment
+bool operator!(const Number &obj);
+```
+
+Example: use ```-``` to make the string lower case.
+Assuming that this function has been declared as a **friend** function in the class declaration.
+```c++
+MyString operator-(const MyString &obj){
+  char *buff = new char[std::strlen(obj.str) + 1];
+  std::strcpy(buff, obj.str);
+  for(size_t i = 0; i < std::strlen(buff); i++)
+    buff[i] = std::tolower(buff[i]);
+
+  MyString temp {buff};
+  delete [] buff;
+  return temp;
+}
+```
+
+## Binary Operators as global/non-member functions
+
+```c++
+// lhs is "left hand size"
+// rhs is "right hand size"
+ReturnType operatorOp(const Type &lhs, const Type &rhs);
+
+Number operator+(const Number &lhs, const Number &rhs);
+Number operator-(const Number &lhs, const Number &rhs); 
+Number operator==(const Number &lhs, const Number &rhs);
+bool operator<(const Number &lhs, const Number &rhs);
+```
+
+Example ```==``` operator on MyString
+
+Since we are accessing some private member variables, we are assuming this operator has been declared as a friend of that class.
+
+```c++
+bool operator==(const MyString &lhs, const MyString &rhs){
+  if(std::strcmp(lhs.str, rhs.str) == 0)
+    return true;
+
+  return false;
+}
+```
+
+Since we are accessing some private member variables, we are assuming this operator has been declared as a friend of that class.
+
+```c++
+MyString operator+(const MyString &lhs, const MyString &rhs){
+  size_t buff_size = std::strlen(lhs.str) + 
+                      std::strlen(rhs.str) + 1;
+
+  char *buff = new char[buff_size];
+
+  std::strcpy(buff, lhs.str);
+  std::strcat(buff, rhs.str);
+
+  MyString temp {buff};
+  delete [] buff;
+  return temp;
+}
+```
+
+uses:
+
+```c++
+MyString larry {"Larry"};
+MyString stooges {"stooges"};
+
+MyString result = larry + stooges;
+
+result = stooges + "asasda";
+result = "Moe" + larry;   // This would not work with member function
 ```
