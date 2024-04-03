@@ -1665,3 +1665,40 @@ MyString result = larry + stooges;
 result = stooges + "asasda";
 result = "Moe" + larry;   // This would not work with member function
 ```
+
+## Stream Insertion and Extraction operators (<<,>>)
+
+It does not make sense to implement them as member methods since:
+- Left operand must be a user-defined class
+- Not the way we usually use these operators
+
+```c++
+MyString larry;
+larry << cout;  // This is unusual
+larry >> cin;  // This is unusual
+```
+
+Better to implement them as non-member function:
+
+- **Stream Insertion**
+We return the **oStream** as reference so we can keep inserting in it.
+
+```c++
+std::ostream & operator<<(std::ostream &os, const MyString &obj){
+  os << obj.str; // If friend function
+  // os << obj.getStr(); // If not friend function
+  return os;
+}
+```
+
+- **Stream Extraction**
+
+```c++
+std::istream & operator>>(std::istream &is, MyString &obj){
+  char *buff = new char[1000];
+  is >> buff;
+  obj = MyString{buff}; 
+  delete [] buff;
+  return is;
+}
+```
