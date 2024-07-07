@@ -110,51 +110,61 @@ public:
 
 int main()
 {
-	DynamicArray dynamicArray(10);
-	DynamicArray* dynamicArray = new DynamicArray(10);
+	DynamicArray dynamicArray(5);
 
-	List list;
+	dynamicArray.Add(123);
+	dynamicArray.Add(123);
+	dynamicArray.Add(123);
+	dynamicArray.Add(123);
+	dynamicArray.Add(123);
 
-	Node node1;
-	list.AddNode(&node1);
+	dynamicArray.Add(6);
 
-	list.AddNode();
-	list.Print();
 
-	{
-		Node node;
-		list.AddNode(&node);
-	}
+	//DynamicArray* dynamicArray = new DynamicArray(10);
 
-	{
-		Node node;
-		list.AddNode(&node);
-	}
+	//List list;
 
-	list.Print();
+	//Node node1;
+	//list.AddNode(&node1);
 
-	//int stackArray[20];
-	//PrintArray(stackArray, 20);
+	//list.AddNode();
+	//list.Print();
 
-	int size = 15;
-	int* heapArray = new int[size];
+	//{
+	//	Node node;
+	//	list.AddNode(&node);
+	//}
 
-	//// memset
-	//memset(heapArray, 0, sizeof(int) * size);
-	//PrintArray(heapArray, size);
+	//{
+	//	Node node;
+	//	list.AddNode(&node);
+	//}
 
-	// memcpy
-	int* heapArray2 = new int[size];
-	//memcpy(heapArray2, heapArray, sizeof(int) * size);
-	//PrintArray(heapArray2, size);
+	//list.Print();
 
-	delete(heapArray);
-	free(heapArray);
+	////int stackArray[20];
+	////PrintArray(stackArray, 20);
 
-	int* arr1 = new int[size];
-	int* arr2 = new int[size];
+	//int size = 15;
+	//int* heapArray = new int[size];
 
-	memcpy(arr2, arr1, sizeof(int) * size);
+	////// memset
+	////memset(heapArray, 0, sizeof(int) * size);
+	////PrintArray(heapArray, size);
+
+	//// memcpy
+	//int* heapArray2 = new int[size];
+	////memcpy(heapArray2, heapArray, sizeof(int) * size);
+	////PrintArray(heapArray2, size);
+
+	//delete(heapArray);
+	//free(heapArray);
+
+	//int* arr1 = new int[size];
+	//int* arr2 = new int[size];
+
+	//memcpy(arr2, arr1, sizeof(int) * size);
 
 
 	std::cout << "end" << std::endl;
