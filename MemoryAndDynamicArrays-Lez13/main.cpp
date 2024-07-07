@@ -80,16 +80,6 @@ void PrintArray(int* array, int size)
 	std::cout << std::endl;
 }
 
-
-int main()
-{
-	int size = 20;
-
-	int* heapArray = new int[size];
-	int* heapArray = (int*)malloc(size * sizeof(int));
-	int* heapArray = (int*)calloc(size, sizeof(int));
-}
-
 int main()
 {
 	//List list;
