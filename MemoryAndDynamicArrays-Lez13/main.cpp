@@ -80,6 +80,16 @@ void PrintArray(int* array, int size)
 	std::cout << std::endl;
 }
 
+
+int main()
+{
+	int size = 20;
+
+	int* heapArray = new int[size];
+	int* heapArray = (int*)malloc(size * sizeof(int));
+	int* heapArray = (int*)calloc(size, sizeof(int));
+}
+
 int main()
 {
 	//List list;
@@ -101,20 +111,20 @@ int main()
 
 	//list.Print();
 
-	int stackArray[20];
+	//int stackArray[20];
+	//PrintArray(stackArray, 20);
 
-	int size = 15;
-	int* heapArray = new int[size];
+	//int size = 15;
+	//int* heapArray = new int[size];
 
-	// memset
-	memset(heapArray, 0, sizeof(int) * size);
-	PrintArray(heapArray, size);
+	//// memset
+	//memset(heapArray, 0, sizeof(int) * size);
+	//PrintArray(heapArray, size);
 
-	// memcpy
-	int* heapArray2 = new int[size];
-	memcpy(heapArray2, heapArray, sizeof(int) * size);
-	PrintArray(heapArray2, size);
+	//// memcpy
+	//int* heapArray2 = new int[size];
+	//memcpy(heapArray2, heapArray, sizeof(int) * size);
+	//PrintArray(heapArray2, size);
 
-
-	int c = 7;
+	std::cout << "end" << std::endl;
 }
