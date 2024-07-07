@@ -14,10 +14,9 @@ public:
 public:
 	void AddNode()
 	{
-		Node nodeToAdd;
-		Node* lastNode = nullptr;
+		Node* nodeToAdd = new Node();
 
-		nodeToAdd.Index = m_Size;
+		nodeToAdd->Index = m_Size;
 		m_Size++;
 
 		if (!m_RootNode)
@@ -26,6 +25,7 @@ public:
 			return;
 		}
 
+		Node* lastNode = nullptr;
 		lastNode = m_RootNode;
 
 		while (lastNode->Child)
@@ -37,8 +37,6 @@ public:
 	}
 	void AddNode(Node* nodeToAdd)
 	{
-		Node* lastNode = nullptr;
-
 		nodeToAdd->Index = m_Size;
 		m_Size++;
 
@@ -48,6 +46,7 @@ public:
 			return;
 		}
 
+		Node* lastNode = nullptr;
 		lastNode = m_RootNode;
 
 		while (lastNode->Child)
@@ -80,41 +79,83 @@ void PrintArray(int* array, int size)
 	std::cout << std::endl;
 }
 
+class DynamicArray
+{
+public:
+	int* arr;
+	int size = 0;
+	int lastIndex = 0;
+	// ...
+	DynamicArray(int startingSize)
+	{
+		// allocare l'array
+
+
+		size = startingSize;
+	}
+	void Add(int value)
+	{
+		// add element at last index
+			// se ho un elemento in più della size,
+			// devo allocare nuova memoria
+		// increment last index
+	}
+	void Remove()
+	{
+		// remove last index
+		// decrement last index
+	}
+
+};
+
 int main()
 {
-	//List list;
+	DynamicArray dynamicArray(10);
+	DynamicArray* dynamicArray = new DynamicArray(10);
 
-	//Node node1;
-	//list.AddNode(&node1);
+	List list;
 
-	//list.AddNode();
+	Node node1;
+	list.AddNode(&node1);
 
-	//{
-	//	Node node;
-	//	list.AddNode(&node);
-	//}
+	list.AddNode();
+	list.Print();
 
-	//{
-	//	Node node;
-	//	list.AddNode(&node);
-	//}
+	{
+		Node node;
+		list.AddNode(&node);
+	}
 
-	//list.Print();
+	{
+		Node node;
+		list.AddNode(&node);
+	}
+
+	list.Print();
 
 	//int stackArray[20];
 	//PrintArray(stackArray, 20);
 
-	//int size = 15;
-	//int* heapArray = new int[size];
+	int size = 15;
+	int* heapArray = new int[size];
 
 	//// memset
 	//memset(heapArray, 0, sizeof(int) * size);
 	//PrintArray(heapArray, size);
 
-	//// memcpy
-	//int* heapArray2 = new int[size];
+	// memcpy
+	int* heapArray2 = new int[size];
 	//memcpy(heapArray2, heapArray, sizeof(int) * size);
 	//PrintArray(heapArray2, size);
+
+	delete(heapArray);
+	free(heapArray);
+
+	int* arr1 = new int[size];
+	int* arr2 = new int[size];
+
+	memcpy(arr2, arr1, sizeof(int) * size);
+
 
 	std::cout << "end" << std::endl;
 }
